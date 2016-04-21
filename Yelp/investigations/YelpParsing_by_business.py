@@ -1,6 +1,7 @@
 # Import libraries
 from pyspark import SparkContext
 from pyspark.sql import HiveContext
+from pyspark.sql.types import *
 import numpy as np
 import pandas as pd
 import collections
@@ -19,12 +20,10 @@ from pandas import DataFrame, Series
 bigram_measures = nltk.collocations.BigramAssocMeasures()
 trigram_measures = nltk.collocations.TrigramAssocMeasures()
 
-sc = SparkContext("local", "YelpParsing")
+sc = SparkContext("local", "YelpParsing_by_business")
+sqlContext = HiveContext(sc)
 # Read in the train and test data
-reviews = sqlContext.sql("select review.business_id as business_id, \
-                        review.text as text, \
-                        review.stars as stars, \
-                        review.date as date from review")
+reviews = sqlContext.sql("select business_id,text,stars,date from review")
 reviews_by_business = reviews.groupby('business_id')['text']
 reviews_by_business = reviews_by_business.aggregate(lambda x: ' '.join(x))
 
@@ -106,4 +105,4 @@ for index, row in df_reviews_by_business.iterrows():
 # Save it as a table
 df.registerTempTable("dfBusiness")
 sqlContext.sql("drop table if exists resultByBusiness")
-sqlContext.sql("CREATE TABLE resultByBusiness AS SELECT * FROM df")
+sqlContext.sql("CREATE TABLE resultByBusiness AS SELECT * FROM dfBusiness")

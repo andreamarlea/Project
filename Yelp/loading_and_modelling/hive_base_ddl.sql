@@ -26,7 +26,7 @@ CREATE EXTERNAL TABLE business_raw(
 	ambience_hipster STRING,
 	byob_corkage STRING,
 	music_live STRING,
-	dietary_dairy-free STRING,
+	dietary_dairy_free STRING,
 	music_background STRING,
 	price_range STRING,
 	good_for_breakfast STRING,
@@ -84,11 +84,11 @@ CREATE EXTERNAL TABLE business_raw(
 	smoking	STRING,
 	attire STRING,
 	good_for_groups	STRING,
-	neighborhoods_STRING,
+	neighborhoods STRING,
 	open_24_Hours STRING,
 	ambience_romantic STRING,
 	music_jukebox STRING,
-	ambience_upscale STRING,
+	ambience_upscale STRING
 )
 ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
 WITH SERDEPROPERTIES (
@@ -104,7 +104,7 @@ CREATE EXTERNAL TABLE review_raw(
 	user_id STRING,
 	review_id STRING,
 	text STRING,
-	votes.cool STRING,
+	votes_cool STRING,
 	business_id STRING,
 	votes_funny STRING,
 	stars STRING,
